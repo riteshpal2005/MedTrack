@@ -17,7 +17,7 @@ export interface MedicineSchedule {
   times: string[];
   startDate: number;
   intervalDays?: number;
-  specificdays?: number[];
+  specificDays?: number[];
 }
 
 export interface Medicine {
@@ -34,7 +34,7 @@ export interface Medicine {
 
 interface MedicineState {
   medicines: Medicine[];
-  addMedicine: (medicine: Omit<Medicine, 'id' | 'cretedAt' | 'isArchived'>) => void;
+  addMedicine: (medicine: Omit<Medicine, 'id' | 'createdAt' | 'isArchived'>) => void;
   updateInventory: (id: string, amountToSubtract: number) => void;
   archiveMedicine: (id: string) => void;
   deleteMedicine: (id: string) => void;
