@@ -12,7 +12,13 @@
     "nativewind-env.d.ts"
   ],
   "exclude": [
-    "**/node_modules",
-    "**/Pods"
+    "node_modules",
+    "android",
+    "ios",
+    ".expo",
+    ".metro",
+    "build",
+    "dist",
+    "Pods"
   ]
 }
