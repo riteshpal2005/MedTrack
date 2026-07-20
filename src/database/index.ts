@@ -5,6 +5,7 @@ import schema from './schema';
 import Profile from './models/Profile';
 import Medicine from './models/Medicine';
 import HistoryLog from './models/HistoryLogs';
+import HealthRecord from './models/HealthRecord';
 
 const adapter = new SQLiteAdapter({
   schema,
@@ -20,5 +21,6 @@ export const database = new Database({
     Profile,
     Medicine,
     HistoryLog,
+    HealthRecord,
   ],
 });

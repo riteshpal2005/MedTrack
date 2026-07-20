@@ -50,3 +50,12 @@ export const archiveMedicine = async (medicineId: string): Promise<void> => {
     });
   });
 };
+
+export const deleteMedicine = async (medicineId: string): Promise<void> => {
+  return await database.write(async () => {
+    const medicineCollection = database.collections.get<Medicine>('medicines');
+    const medicine = await medicineCollection.find(medicineId);
+
+    await medicine.markAsDeleted();
+  })
+}
