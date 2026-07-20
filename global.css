@@ -1,3 +1,40 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --md-sys-color-primary: 0 104 116;
+    --md-sys-color-on-primary: 255 255 255;
+    --md-sys-color-primary-container: 151 240 255;
+    --md-sys-color-on-primary-container: 0 31 36;
+
+    --md-sys-color-background: 250 253 253;
+    --md-sys-color-on-background: 25 28 29;
+    --md-sys-color-surface: 250 253 253; 
+    --md-sys-color-on-surface: 25 28 29;
+
+    --md-sys-color-surface-variant: 219 228 230;
+    --md-sys-color-on-surface-variant: 63 72 74;
+
+    --md-sys-color-error: 186 26 26;
+    --md-sys-color-on-error: 255 255 255;
+  }
+  .dark {
+    --md-sys-color-primary: 79 216 235;
+    --md-sys-color-on-primary: 0 54 61;
+    --md-sys-color-primary-container: 0 79 88;
+    --md-sys-color-on-primary-container: 151 240 255;
+    
+    --md-sys-color-background: 25 28 29; 
+    --md-sys-color-on-background: 225 227 227; 
+    --md-sys-color-surface: 25 28 29; 
+    --md-sys-color-on-surface: 225 227 227; 
+    
+    --md-sys-color-surface-variant: 63 72 74;
+    --md-sys-color-on-surface-variant: 191 200 202; 
+    
+    --md-sys-color-error: 255 180 171; 
+    --md-sys-color-on-error: 105 0 5; 
+  }
+}
