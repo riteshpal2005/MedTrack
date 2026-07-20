@@ -17,4 +17,4 @@ export default class Medicine extends Model {
   @date('created_at') createdAt!: Date;
   
   @children('history_logs') historyLogs!: any;
- }
+}
