@@ -39,7 +39,7 @@ export default appSchema({
         { name: 'profile_id', type: 'string', isIndexed: true },
         { name: 'type', type: 'string' },
         { name: 'notes', type: 'string' },
-        { name: 'create_at', type: 'number' },
+        { name: 'created_at', type: 'number' },
       ]
     })
   ]

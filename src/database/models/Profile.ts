@@ -10,4 +10,5 @@ export default class Profile extends Model {
 
   @children('medicines') medicines!: any;
   @children('history_logs') historyLogs!: any;
+  @children('health_records') healthRecords!: any;
 }
