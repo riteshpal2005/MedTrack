@@ -32,6 +32,15 @@ export default appSchema({
         { name: 'scheduled_time', type: 'string' },
         { name: 'status', type: 'string' }, 
       ]
+    }),
+    tableSchema({
+      name: 'health_records',
+      columns: [
+        { name: 'profile_id', type: 'string', isIndexed: true },
+        { name: 'type', type: 'string' },
+        { name: 'notes', type: 'string' },
+        { name: 'create_at', type: 'number' },
+      ]
     })
   ]
 })
