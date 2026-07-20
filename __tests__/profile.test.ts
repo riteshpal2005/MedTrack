@@ -2,7 +2,8 @@ import { createProfile } from "../src/database/helpers/profile";
 
 jest.mock('../src/database', () => {
   return {
-    databse: {
+    __esModule: true,
+    database: {
       write: jest.fn(async (callback) => callback()),
       collections: {
         get: jest.fn(() => ({
