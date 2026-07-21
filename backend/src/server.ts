@@ -8,14 +8,26 @@ import historyRoutes from './routes/historyLogs';
 import healthRoutes from './routes/healthRecords';
 import authRoutes from './routes/auth';
 import { authenticateJWT } from './middleware/auth';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(helmet());
 app.use(cors());
 app.use(express.json());
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 100,
+  message: { error: 'Too many requests from this IP, please try again later' }
+});
+
+app.use(limiter);
+
 app.use('/api/auth', authRoutes)
 app.use('/api/profiles', authenticateJWT, profileRoutes)
 app.use('/api/medicines', authenticateJWT, medicineRoutes)
