@@ -16,6 +16,7 @@
     "@react-native/jest-preset": "^0.86.0",
     "@react-native/new-app-screen": "0.86.0",
     "axios": "^1.18.1",
+    "axios-retry": "^4.5.0",
     "nativewind": "^4.2.6",
     "prettier-plugin-tailwindcss": "^0.5.14",
     "react": "19.2.3",
