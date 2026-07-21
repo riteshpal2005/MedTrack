@@ -1,6 +1,9 @@
 import { Router, type Request, type Response } from "express";
 import { pool } from "../db";
 
+import { validateData } from "../middleware/validate";
+import { ProfileSchema } from "../schema";
+
 const router = Router();
 
 router.get('/', async (req: Request, res: Response) => {
@@ -13,7 +16,7 @@ router.get('/', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', validateData(ProfileSchema), async (req: Request, res: Response) => {
   const { id, name, created_at } = req.body;
   try {
     const result = await pool.query('INSERT INTO profiles (id, name, created_at) VALUES ($1, $2, $3) RETURNING *', [id, name, created_at]);
