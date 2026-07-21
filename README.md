@@ -82,7 +82,7 @@ MedTrack/
 ├── docs/                       # Architecture diagrams and Excalidraw assets
 ├── ARCHITECTURE.md             # In-depth system architecture documentation
 ├── CONTRIBUTING.md             # Community contribution guidelines & standards
-└── LICENSE                     # Open-source license terms
+└── LICENSE.md                  # Open-source license terms
 ```
 
 ## Prerequisites
@@ -244,4 +244,4 @@ For full technical specifications, database schemas, and contribution standards,
 - 🤝 **[CONTRIBUTING.md](./CONTRIBUTING.md)**: Git branching policies, Conventional Commit conventions, pull request rules, and coding standards.
 
 ## License & Contributions
-MedTrack is released under the MIT License. Contributions, bug reports, and feature requests are welcome! Please read `CONTRIBUTING.md` before submitting Pull Requests.
+MedTrack is released under the MIT License. For a plain-language summary of your rights and obligations, please see the [LICENSE.md](./LICENSE.md) file. Contributions, bug reports, and feature requests are welcome! Please read `CONTRIBUTING.md` before submitting Pull Requests.
