@@ -5,6 +5,7 @@ import './db';
 import profileRoutes from './routes/profiles';
 import medicineRoutes from './routes/medicines';
 import historyRoutes from './routes/historyLogs';
+import healthRoutes from './routes/healthRecords';
 
 dotenv.config();
 
@@ -15,7 +16,8 @@ app.use(cors());
 app.use(express.json());
 app.use('/api/profiles', profileRoutes)
 app.use('/api/medicines', medicineRoutes)
-app.use('/api/historys', historyRoutes)
+app.use('/api/history', historyRoutes)
+app.use('/api/health-records', healthRoutes)
 
 app.get('/health', (req: Request, res: Response) => {
   res.status(200).json({ status: 'success', message: 'MedTrackj API is running!' });
