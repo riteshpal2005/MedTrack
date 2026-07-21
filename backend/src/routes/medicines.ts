@@ -1,6 +1,9 @@
 import { Router, type Request, type Response } from "express";
 import { pool } from "../db";
 
+import { validateData } from "../middleware/validate";
+import { MedicineSchema } from "../schema";
+
 const router = Router();
 
 router.get('/:profileId', async (req: Request, res: Response) => {
@@ -15,7 +18,7 @@ router.get('/:profileId', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', validateData(MedicineSchema), async (req: Request, res: Response) => {
   const { id, profile_id, name, dosage, inventory_count, warning_level, schedule, is_archived, created_at } = req.body;
 
   try {

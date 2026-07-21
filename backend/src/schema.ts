@@ -6,7 +6,7 @@ export const ProfileSchema = z.object({
   created_at: z.number().int().positive(),
 });
 
-export const MedcineSchema = z.object({
+export const MedicineSchema = z.object({
   id: z.string().min(1),
   profile_id: z.string().min(1),
   name: z.string().min(2),

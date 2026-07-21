@@ -1,6 +1,9 @@
 import { Router, type Request, type Response } from "express";
 import { pool } from "../db";
 
+import { validateData } from "../middleware/validate";
+import { HealthRecordSchema } from "../schema";
+
 const router = Router();
 
 router.get('/:profileId', async (req: Request, res: Response) => {
@@ -14,7 +17,7 @@ router.get('/:profileId', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', validateData(HealthRecordSchema), async (req: Request, res: Response) => {
   const { id, profile_id, type, notes, created_at } = req.body;
   try {
     const result = await pool.query(

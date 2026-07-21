@@ -1,6 +1,9 @@
 import { Router, type Request, type Response } from "express";
 import { pool } from "../db";
 
+import { validateData } from "../middleware/validate";
+import { HistoryLogSchema } from "../schema";
+
 const router = Router();
 
 router.get('/:profileId', async (req: Request, res: Response) => {
@@ -15,7 +18,7 @@ router.get('/:profileId', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', validateData(HistoryLogSchema),async (req: Request, res: Response) => {
   const { id, medicine_id, profile_id, timestamp, scheduled_time, status } = req.body;
   try {
     const result = await pool.query(`INSERT INTO history_logs (id, medicine_id, profile_id, timestamp, scheduled_time, status) 
