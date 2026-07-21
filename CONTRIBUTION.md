@@ -19,17 +19,17 @@ We are committed to providing a welcoming, safe, and inclusive environment. Plea
 
 ### Prerequisites
 Ensure you have the following installed locally before setting up the repository:
-- Node.js (v18.x or higher)
+- [Node.js (v18.x or higher)](https://nodejs.org/)
 - npm or yarn
 - JDK 17+ (for Android development)
-- Android Studio & Android SDK (with an active emulator or device)
-- PostgreSQL (v16+ for local database development)
+- [Android Studio & Android SDK](https://reactnative.dev/docs/environment-setup) (with an active emulator or device)
+- [PostgreSQL (v16+)](https://www.postgresql.org/download/) (for local database development)
 
 ### Environment Setup
 1. **Fork the Repository** on GitHub.
 2. **Clone your fork locally**:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/MedTrack.git
+   git clone https://github.com/riteshpal2005/MedTrack.git
    cd MedTrack
    ```
 3. **Install Dependencies**:
@@ -42,7 +42,9 @@ Ensure you have the following installed locally before setting up the repository
    ```
 4. **Configure Environment Variables**:
    Copy the `.env.example` file to `.env` and fill in your local PostgreSQL credentials and API configurations.
-5. **Start the Development Server**:
+5. **Database Migrations**:
+   Check the `backend/package.json` for any migration scripts and run them if applicable.
+6. **Start the Development Server**:
    ```bash
    npm start
    ```
@@ -58,7 +60,7 @@ Ensure you have the following installed locally before setting up the repository
 4. Push your branch to your fork and submit a Pull Request.
 
 ## Git Branching Strategy
-We use a feature-branch workflow. All work should happen in dedicated branches created off `main`.
+We use a feature-branch workflow. All work should happen in dedicated branches created off `main`. If you are addressing a GitHub Issue (or Jira in the future), please reference the issue number in your branch name and pull request description.
 
 ### Branch Naming Format
 `<type>/<short-description>`
@@ -125,6 +127,7 @@ npm run format
   ```bash
   npm test
   ```
+- **Pass CI/CD Checks**: Ensure your PR passes all automated GitHub Actions checks (and potentially Fastlane in the future). PRs will not be merged if the pipeline fails.
 - **Write a Clear Title**: Use the Conventional Commit syntax for your PR title (e.g., `feat(api): configure global axios instance`).
 - **Complete the PR Template**: Fill out all sections of the PR checklist below in your pull request description.
 
