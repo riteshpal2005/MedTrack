@@ -3,7 +3,7 @@ import { pool } from "../db";
 
 const router = Router();
 
-router.get('/', async (req: Request, res: Response) => {
+router.get('/:profileId', async (req: Request, res: Response) => {
   const { profileId } = req.params;
   try {
     const result = await pool.query('SELECT * FROM health_records WHERE profile_id = $1', [profileId]);
@@ -15,7 +15,7 @@ router.get('/', async (req: Request, res: Response) => {
 });
 
 router.post('/', async (req: Request, res: Response) => {
-  const { id, profile_id, type, notes, created_at } = req.params;
+  const { id, profile_id, type, notes, created_at } = req.body;
   try {
     const result = await pool.query(
       `INSERT INTO health_records (id, profile_id, type, notes, created_at) 
