@@ -3,7 +3,8 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "types": [
-      "jest"
+      "jest",
+      "nativewind/types"
     ]
   },
   "include": [
