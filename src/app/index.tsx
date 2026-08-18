@@ -1,15 +1,18 @@
 import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { ThemeProvider } from '../providers/theme-provider';
-import HomeScreen from '../screens/home/home';
-import { DatabaseProvider} from '@nozbe/watermelondb/DatabaseProvider'
+import BottomTabs from '../navigation/bottom-tabs';
+import { DatabaseProvider } from '@nozbe/watermelondb/DatabaseProvider';
 import { database } from '../database';
 
 export default function AppRoot() {
-  return(
+  return (
     <DatabaseProvider database={database}>
       <ThemeProvider>
-        <HomeScreen />
+        <NavigationContainer>
+          <BottomTabs />
+        </NavigationContainer>
       </ThemeProvider>
     </DatabaseProvider>
-  )
+  );
 }
