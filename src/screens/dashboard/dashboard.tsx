@@ -1,28 +1,26 @@
 import React, { useState } from 'react';
-import { View, Text, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useThemeStore } from '../../store/theme-store';
-import EmptyState from '../../components/empty-state';
-import TaskTimeline from '../../components/task-timeline';
-import FloatingActionButton from '../../components/floating-action-button';
+import EmptyState from '../../components/dashboard/empty-state';
+import TaskTimeline from '../../components/dashboard/task-timeline';
+import FloatingActionButton from '../../components/dashboard/floating-action-button';
 import { Settings } from 'lucide-react-native';
 
-export default function HomeScreen() {
+export default function DashboardScreen() {
   const { theme, setTheme } = useThemeStore();
-  // Using an empty array to force the empty state, as requested
-  const [tasks, setTasks] = useState([]);
+  const [tasks] = useState([]);
 
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
   const handleAddTask = () => {
-    // This will open an add task modal/screen in the future
     console.log('Add task pressed');
   };
 
   return (
     <SafeAreaView className="flex-1 bg-background">
-      {/* Header */}
       <View className="px-6 pt-8 pb-4 flex-row justify-between items-center">
         <View>
           <Text className="text-sm font-medium text-on-surface/70 uppercase tracking-wider mb-1">
@@ -35,7 +33,7 @@ export default function HomeScreen() {
         </View>
       </View>
 
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }} className="flex-1">
+      <ScrollView contentContainerStyle={styles.scrollContent} className="flex-1">
         {tasks.length === 0 ? (
           <EmptyState type="first-launch" onAction={handleAddTask} />
         ) : (
@@ -47,3 +45,9 @@ export default function HomeScreen() {
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  scrollContent: {
+    flexGrow: 1,
+  },
+});

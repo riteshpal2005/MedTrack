@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { Sparkles, CheckCircle2 } from 'lucide-react-native';
-import { useThemeStore } from '../store/theme-store';
+import { useThemeStore } from '../../store/theme-store';
 
 type EmptyStateType = 'first-launch' | 'all-caught-up';
 
