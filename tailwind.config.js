@@ -5,6 +5,9 @@ module.exports = {
   presets: [require("nativewind/preset")],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Sora_400Regular', 'sans-serif'],
+      },
       colors: {
         primary: "rgb(var(--md-sys-color-primary) / <alpha-value>)",
         "on-primary": "rgb(var(--md-sys-color-on-primary) / <alpha-value>)",
@@ -21,6 +24,12 @@ module.exports = {
         
         error: "rgb(var(--md-sys-color-error) / <alpha-value>)",
         "on-error": "rgb(var(--md-sys-color-on-error) / <alpha-value>)",
+
+        /* LedgerLite Mappings */
+        "brand-primary": "rgb(var(--md-sys-color-primary) / <alpha-value>)",
+        bordercolor: "rgb(var(--md-sys-color-outline) / 0.2)",
+        "text-primary": "rgb(var(--md-sys-color-on-surface) / <alpha-value>)",
+        "text-secondary": "rgb(var(--md-sys-color-on-surface) / 0.7)",
       },
     },
   },
