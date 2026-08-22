@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useThemeStore } from '../../store/theme-store';
-import EmptyState from '../../components/dashboard/empty-state';
-import TaskTimeline from '../../components/dashboard/task-timeline';
-import FloatingActionButton from '../../components/dashboard/floating-action-button';
+import { useThemeStore } from '../store/theme-store';
+import { useRoutineStore } from '../store/routine-store';
+import EmptyState from '../components/dashboard/empty-state';
+import TaskTimeline from '../components/dashboard/task-timeline';
+import FloatingActionButton from '../components/dashboard/floating-action-button';
+import TaskModal from '../components/dashboard/task-modal';
 import { Settings } from 'lucide-react-native';
 
 export default function DashboardScreen() {
   const { theme, setTheme } = useThemeStore();
-  const [tasks] = useState([]);
+  const { tasks } = useRoutineStore();
+  const [modalVisible, setModalVisible] = useState(false);
 
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
   const handleAddTask = () => {
-    console.log('Add task pressed');
+    setModalVisible(true);
   };
 
   return (
@@ -42,6 +45,12 @@ export default function DashboardScreen() {
       </ScrollView>
 
       <FloatingActionButton onPress={handleAddTask} />
+
+      <TaskModal 
+        visible={modalVisible} 
+        onClose={() => setModalVisible(false)} 
+        taskToEdit={null} 
+      />
     </SafeAreaView>
   );
 }
