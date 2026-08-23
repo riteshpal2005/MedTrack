@@ -50,7 +50,7 @@ function WheelPicker({ items, selectedValue, onValueChange }: WheelPickerProps) 
       >
         {paddedItems.map((item, index) => (
           <View key={index} style={styles.itemContainer}>
-            <Text className={`text-2xl font-bold ${item === selectedValue ? 'text-primary' : 'text-on-surface/40'}`}>
+            <Text className={`font-sans text-2xl font-bold ${item === selectedValue ? 'text-primary' : 'text-on-surface/40'}`}>
               {item}
             </Text>
           </View>
@@ -80,7 +80,7 @@ export default function CustomTimePicker({ hour, minute, period, onHourChange, o
         <WheelPicker items={hours} selectedValue={hour} onValueChange={onHourChange} />
       </View>
       <View className="justify-center items-center pb-2">
-        <Text className="text-3xl font-bold text-on-surface/50">:</Text>
+        <Text className="font-sans text-3xl font-bold text-on-surface/50">:</Text>
       </View>
       <View className="flex-1">
         <WheelPicker items={minutes} selectedValue={minute} onValueChange={onMinuteChange} />

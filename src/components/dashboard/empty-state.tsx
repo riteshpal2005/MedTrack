@@ -22,10 +22,10 @@ export default function EmptyState({ type, onAction }: EmptyStateProps) {
         <View className="bg-primary-container p-6 rounded-full mb-6 shadow-sm">
           <CheckCircle2 size={48} color={iconColor} strokeWidth={1.5} />
         </View>
-        <Text className="text-2xl font-bold text-primary mb-2 text-center">
+        <Text className="font-sans text-2xl font-bold text-primary mb-2 text-center">
           You're All Caught Up!
         </Text>
-        <Text className="text-on-surface text-center text-base mb-8 opacity-70">
+        <Text className="font-sans text-on-surface text-center text-base mb-8 opacity-70">
           You've completed everything on your schedule for today. Time to relax and enjoy the rest of your day.
         </Text>
       </View>
@@ -38,17 +38,17 @@ export default function EmptyState({ type, onAction }: EmptyStateProps) {
       <View className="bg-primary-container p-6 rounded-full mb-6 shadow-sm">
         <Sparkles size={48} color={iconColor} strokeWidth={1.5} />
       </View>
-      <Text className="text-2xl font-bold text-primary mb-2 text-center">
+      <Text className="font-sans text-2xl font-bold text-primary mb-2 text-center">
         Let's Build Your Routine
       </Text>
-      <Text className="text-on-surface text-center text-base mb-8 opacity-70">
+      <Text className="font-sans text-on-surface text-center text-base mb-8 opacity-70">
         Your day is a blank canvas. Start by adding your first medication, supplement, or skincare task.
       </Text>
       <Pressable
         onPress={onAction}
         className="bg-primary px-8 py-4 rounded-full shadow-md active:opacity-80 flex-row items-center"
       >
-        <Text className="text-on-primary font-bold text-lg">
+        <Text className="font-sans text-on-primary font-bold text-lg">
           Add First Task
         </Text>
       </Pressable>

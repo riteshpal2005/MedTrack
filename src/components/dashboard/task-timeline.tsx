@@ -43,10 +43,10 @@ const TaskItem = ({ task }: { task: RoutineTask }) => {
       className="bg-surface-variant p-5 rounded-3xl mb-4 flex-row justify-between items-center shadow-sm"
     >
       <View>
-        <Text className={`text-on-surface font-bold text-xl ${task.completed ? 'line-through' : ''}`}>
+        <Text className={`font-sans text-on-surface font-bold text-xl ${task.completed ? 'line-through' : ''}`}>
           {task.title}
         </Text>
-        <Text className="text-on-surface/70 mt-1 font-medium text-sm">
+        <Text className="font-sans text-on-surface/70 mt-1 font-medium text-sm">
           {task.time}
         </Text>
       </View>
@@ -67,7 +67,7 @@ export default function TaskTimeline({ tasks }: TaskTimelineProps) {
 
   return (
     <View className="px-6 py-2 mt-4">
-      <Text className="text-sm font-bold text-on-surface/70 uppercase tracking-widest mb-4 ml-1">Today's Schedule</Text>
+      <Text className="font-sans text-sm font-bold text-on-surface/70 uppercase tracking-widest mb-4 ml-1">Today's Schedule</Text>
       {tasks.map((task) => (
         <TaskItem key={task.id} task={task} />
       ))}
