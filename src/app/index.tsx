@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { ThemeProvider } from '../providers/theme-provider';
-import BottomTabs from '../navigation/bottom-tabs';
+import RootNavigator from '../navigation/root-navigator';
 import { DatabaseProvider } from '@nozbe/watermelondb/DatabaseProvider';
 import { database } from '../database';
 
@@ -15,7 +15,7 @@ export default function AppRoot() {
         <ThemeProvider>
           <BottomSheetModalProvider>
             <NavigationContainer>
-              <BottomTabs />
+              <RootNavigator />
             </NavigationContainer>
           </BottomSheetModalProvider>
         </ThemeProvider>

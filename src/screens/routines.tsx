@@ -1,50 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, Pressable, Alert } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, ScrollView, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Plus, Edit2, Trash2, BellRing } from 'lucide-react-native';
-import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
-import { useRoutineStore, RoutineTask } from '../store/routine-store';
-import TaskModal from '../components/dashboard/task-modal';
+import { Plus, BellRing, ChevronRight } from 'lucide-react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useRoutineStore } from '../store/routine-store';
 import { Heading, SubText } from '../components/ui/typography';
 import { requestNotificationPermission } from '../services/notification-service';
+import { RootStackParamList } from '../navigation/root-navigator';
 
 export default function RoutinesScreen() {
-  const { tasks, deleteTask } = useRoutineStore();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [taskToEdit, setTaskToEdit] = useState<RoutineTask | null>(null);
+  const { tasks } = useRoutineStore();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   useEffect(() => {
     requestNotificationPermission();
   }, []);
-
-  const openAddModal = () => {
-    setTaskToEdit(null);
-    setModalVisible(true);
-  };
-
-  const openEditModal = (task: RoutineTask) => {
-    setTaskToEdit(task);
-    setModalVisible(true);
-  };
-
-  const confirmDelete = (id: string, title: string) => {
-    ReactNativeHapticFeedback.trigger('notificationWarning');
-    Alert.alert(
-      "Delete Routine",
-      `Are you sure you want to delete "${title}"? This cannot be undone.`,
-      [
-        { text: "Cancel", style: "cancel" },
-        { 
-          text: "Delete", 
-          style: "destructive",
-          onPress: () => {
-            ReactNativeHapticFeedback.trigger('impactHeavy');
-            deleteTask(id);
-          }
-        }
-      ]
-    );
-  };
 
   return (
     <SafeAreaView className="flex-1 bg-background">
@@ -56,7 +27,7 @@ export default function RoutinesScreen() {
           </SubText>
         </View>
         <Pressable 
-          onPress={openAddModal}
+          onPress={() => navigation.navigate('ManageTask', { taskToEdit: undefined })}
           className="w-14 h-14 rounded-full bg-primary items-center justify-center shadow-lg active:scale-95"
         >
           <Plus size={28} color="#FFFFFF" strokeWidth={2.5} />
@@ -78,32 +49,22 @@ export default function RoutinesScreen() {
           </View>
         ) : (
           tasks.map((task) => (
-            <View 
+            <Pressable 
               key={task.id} 
-              className="bg-surface-variant p-5 rounded-3xl mb-4 flex-row justify-between items-center shadow-sm"
+              onPress={() => navigation.navigate('ManageTask', { taskToEdit: task })}
+              className="bg-surface-variant p-5 rounded-3xl mb-4 flex-row justify-between items-center shadow-sm active:scale-95 transition-transform"
             >
               <View>
                 <Heading className="text-xl mb-1">{task.title}</Heading>
-                <Text className="text-sm font-bold text-brand-primary">{task.time}</Text>
+                <Text className="font-sans text-sm font-bold text-brand-primary">{task.time}</Text>
               </View>
-              <View className="flex-row space-x-3">
-                <Pressable onPress={() => openEditModal(task)} className="p-3 bg-surface rounded-full shadow-sm active:opacity-70">
-                  <Edit2 size={18} color="#0B57D0" />
-                </Pressable>
-                <Pressable onPress={() => confirmDelete(task.id, task.title)} className="p-3 bg-[#FFEBEE] rounded-full shadow-sm active:opacity-70">
-                  <Trash2 size={18} color="#D32F2F" />
-                </Pressable>
+              <View className="p-3 bg-surface rounded-full shadow-sm">
+                <ChevronRight size={18} color="#0B57D0" />
               </View>
-            </View>
+            </Pressable>
           ))
         )}
       </ScrollView>
-
-      <TaskModal 
-        visible={modalVisible} 
-        onClose={() => setModalVisible(false)} 
-        taskToEdit={taskToEdit} 
-      />
     </SafeAreaView>
   );
 }
