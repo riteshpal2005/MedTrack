@@ -74,10 +74,5 @@ yarn-error.log
 !.yarn/sdks
 !.yarn/versions
 
-*.md 
-!README.md
-!ARCHITECTURE.md
-!CONTRIBUTING.md
-!CHANGELOG.md
-!LICENSE.md
-!SECURITY.md
+*.md
+*/*.zip
