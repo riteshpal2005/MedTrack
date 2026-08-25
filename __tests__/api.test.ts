@@ -7,7 +7,7 @@ describe('API Sync Logic', () => {
     const res = await api.post('/auth/login', { apiKey: 'MEDTRACK_SECURE_SYNC_123' });
     const token = res.data.token;
 
-    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    api.defaults.headers.common.Authorization = `Bearer ${token}`;
   });
 
   it('should succesfully push a new profile to the local Postgres backend', async () => {
