@@ -1,10 +1,12 @@
 import { pushProfileToServer } from "../src/api/sync";
 import { api } from "../src/api/axios";
 
+import { ENV } from '../src/config/env';
+
 describe('API Sync Logic', () => {
 
   beforeAll( async () => {
-    const res = await api.post('/auth/login', { apiKey: 'MEDTRACK_SECURE_SYNC_123' });
+    const res = await api.post('/auth/login', { apiKey: ENV.API_KEY });
     const token = res.data.token;
 
     api.defaults.headers.common.Authorization = `Bearer ${token}`;

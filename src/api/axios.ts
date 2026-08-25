@@ -1,8 +1,10 @@
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
 
+import { ENV } from '../config/env';
+
 export const api = axios.create({
-  baseURL: 'http://localhost:3000/api',
+  baseURL: ENV.API_BASE_URL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
