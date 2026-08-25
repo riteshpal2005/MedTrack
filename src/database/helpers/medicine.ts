@@ -3,7 +3,7 @@ import Medicine from "../models/Medicine";
 import Profile from "../models/Profile";
 import { NotificationService } from "../../services/NotificationService";
 
-export interface AddMedicinieParams {
+export interface AddMedicineParams {
   profileId: string;
   name: string;
   dosage: string;
@@ -12,7 +12,7 @@ export interface AddMedicinieParams {
   schedule: any;
 }
 
-export const addMedicine = async (params: AddMedicinieParams): Promise<Medicine> => {
+export const addMedicine = async (params: AddMedicineParams): Promise<Medicine> => {
   return await database.write(async () => {
     const medicineCollection = database.collections.get<Medicine>('medicines');
     const profileCollection = database.collections.get<Profile>('profiles');
@@ -29,15 +29,19 @@ export const addMedicine = async (params: AddMedicinieParams): Promise<Medicine>
     });
 
     if (params.schedule && params.schedule.time) {
-      await NotificationService.createChannel();
-      await NotificationService.scheduleMedicineReminder(newMed.id, newMed.name, params.schedule.time);
+      try {
+        await NotificationService.createChannel();
+        await NotificationService.scheduleMedicineReminder(newMed.id, newMed.name, params.schedule.time);
+      } catch (error) {
+        console.warn('Failed to schedule notification:', error);
+      }
     }
 
     return newMed;
   });
 };
 
-export const updateInvetory = async (medicineId: string, amountToSubtract: number): Promise<void> => {
+export const updateInventory = async (medicineId: string, amountToSubtract: number): Promise<void> => {
   return await database.write(async () => {
     const medicineCollection = database.collections.get<Medicine>('medicines');
     const medicine = await medicineCollection.find(medicineId);
@@ -64,7 +68,17 @@ export const deleteMedicine = async (medicineId: string): Promise<void> => {
     const medicineCollection = database.collections.get<Medicine>('medicines');
     const medicine = await medicineCollection.find(medicineId);
     
-    await NotificationService.cancelMedicineReminder(medicineId);
+    // Cascading delete history logs
+    const historyLogs = await medicine.historyLogs.fetch();
+    for (const log of historyLogs) {
+      await log.markAsDeleted();
+    }
+    
+    try {
+      await NotificationService.cancelMedicineReminder(medicineId);
+    } catch (error) {
+      console.warn('Failed to cancel notification:', error);
+    }
     await medicine.markAsDeleted();
   })
 }

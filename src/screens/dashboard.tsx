@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useThemeStore } from '../store/theme-store';
@@ -7,10 +7,27 @@ import { database } from '../database';
 import Medicine from '../database/models/Medicine';
 import withObservables from '@nozbe/with-observables';
 import { logMedicineAction } from '../database/helpers/history';
-import { updateInvetory } from '../database/helpers/medicine';
+import { updateInventory } from '../database/helpers/medicine';
 
-const DashboardMedicineItem = ({ medicine, isDark }: { medicine: Medicine; isDark: boolean }) => {
+import HistoryLog from '../database/models/HistoryLogs';
+import { Q } from '@nozbe/watermelondb';
+
+const DashboardMedicineItem = ({ medicine, logs, isDark }: { medicine: Medicine; logs: HistoryLog[]; isDark: boolean }) => {
   const [taken, setTaken] = useState(false);
+  
+  useEffect(() => {
+    // Check if there is a 'taken' log for today
+    const today = new Date();
+    const takenToday = logs.some(log => {
+      const logDate = new Date(log.timestamp);
+      return log.status === 'taken' && 
+             logDate.getDate() === today.getDate() && 
+             logDate.getMonth() === today.getMonth() && 
+             logDate.getFullYear() === today.getFullYear();
+    });
+    setTaken(takenToday);
+  }, [logs]);
+
   const textColor = isDark ? 'text-white' : 'text-zinc-900';
   const cardBgColor = isDark ? 'bg-zinc-900' : 'bg-zinc-100';
 
@@ -19,7 +36,7 @@ const DashboardMedicineItem = ({ medicine, isDark }: { medicine: Medicine; isDar
     try {
       // Logic: log history, update inventory
       await logMedicineAction(medicine.id, medicine.profile.id || '1', medicine.schedule?.time || '00:00', 'taken');
-      await updateInvetory(medicine.id, 1);
+      await updateInventory(medicine.id, 1);
       setTaken(true);
       Alert.alert('Success', `You took ${medicine.name}`);
     } catch (e) {
@@ -51,6 +68,7 @@ const DashboardMedicineItem = ({ medicine, isDark }: { medicine: Medicine; isDar
 
 const EnhancedDashboardMedicineItem = withObservables(['medicine'], ({ medicine }) => ({
   medicine: medicine.observe(),
+  logs: medicine.historyLogs.observe(),
 }))(DashboardMedicineItem);
 
 
