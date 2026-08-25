@@ -12,7 +12,7 @@ export const logMedicineAction = async (
   return await database.write(async () => {
     const historyCollection = database.collections.get<HistoryLog>('history_logs');
     const medicineCollection = database.collections.get<Medicine>('medicines');
-    const profileCollection = database.collections.get<Profile>('profiels');
+    const profileCollection = database.collections.get<Profile>('profiles');
 
     const medicine = await medicineCollection.find(medicineId);
     const profile = await profileCollection.find(profileId);

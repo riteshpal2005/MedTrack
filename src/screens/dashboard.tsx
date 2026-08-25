@@ -1,27 +1,69 @@
-import React from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useThemeStore } from '../store/theme-store';
-import { useRoutineStore } from '../store/routine-store';
-import EmptyState from '../components/dashboard/empty-state';
-import TaskTimeline from '../components/dashboard/task-timeline';
-import FloatingActionButton from '../components/dashboard/floating-action-button';
-import { Settings } from 'lucide-react-native';
+import { Settings, CheckCircle2 } from 'lucide-react-native';
 import { RootStackParamList } from '../navigation/root-navigator';
+import { database } from '../database';
+import Medicine from '../database/models/Medicine';
+import withObservables from '@nozbe/with-observables';
+import { logMedicineAction } from '../database/helpers/history';
+import { updateInvetory } from '../database/helpers/medicine';
 
-export default function DashboardScreen() {
+const DashboardMedicineItem = ({ medicine, isDark }: { medicine: Medicine; isDark: boolean }) => {
+  const [taken, setTaken] = useState(false);
+  const textColor = isDark ? 'text-white' : 'text-zinc-900';
+  const cardBgColor = isDark ? 'bg-zinc-900' : 'bg-zinc-100';
+
+  const handleTake = async () => {
+    if (taken) return;
+    try {
+      // Logic: log history, update inventory
+      await logMedicineAction(medicine.id, medicine.profile.id || '1', medicine.schedule?.time || '00:00', 'taken');
+      await updateInvetory(medicine.id, 1);
+      setTaken(true);
+      Alert.alert('Success', `You took ${medicine.name}`);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  return (
+    <View className={`flex-row items-center justify-between p-4 mb-3 rounded-2xl ${cardBgColor}`}>
+      <View className="flex-1">
+        <Text className={`text-lg font-semibold ${textColor}`}>{medicine.name}</Text>
+        <Text className={`text-sm mt-1 text-primary-500 font-medium`}>
+          Scheduled: {medicine.schedule?.time || 'Anytime'}
+        </Text>
+        <Text className={`text-xs mt-1 ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>
+          {medicine.dosage}
+        </Text>
+      </View>
+      <TouchableOpacity 
+        onPress={handleTake} 
+        disabled={taken}
+        className={`p-2 rounded-full ${taken ? 'bg-green-500/20' : 'bg-primary-500/10'}`}
+      >
+        <CheckCircle2 size={28} color={taken ? '#10b981' : '#7C3AED'} />
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const EnhancedDashboardMedicineItem = withObservables(['medicine'], ({ medicine }) => ({
+  medicine: medicine.observe(),
+}))(DashboardMedicineItem);
+
+
+const DashboardScreen = ({ medicines }: { medicines: Medicine[] }) => {
   const { theme, setTheme } = useThemeStore();
-  const { tasks } = useRoutineStore();
+  const isDark = theme === 'dark';
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
-  };
-
-  const handleAddTask = () => {
-    navigation.navigate('ManageTask', { taskToEdit: undefined });
   };
 
   return (
@@ -34,25 +76,34 @@ export default function DashboardScreen() {
           <Text className="font-sans text-3xl font-bold text-on-surface">Hello!</Text>
         </View>
         <View className="w-10 h-10 rounded-full bg-surface-variant items-center justify-center">
-          <Settings size={20} color={theme === 'dark' ? '#E2E2E2' : '#1F1F1F'} onPress={toggleTheme} />
+          <Settings size={20} color={isDark ? '#E2E2E2' : '#1F1F1F'} onPress={toggleTheme} />
         </View>
       </View>
 
-      <ScrollView contentContainerStyle={styles.scrollContent} className="flex-1">
-        {tasks.length === 0 ? (
-          <EmptyState type="first-launch" onAction={handleAddTask} />
+      <ScrollView contentContainerStyle={styles.scrollContent} className="flex-1 px-4">
+        <Text className={`text-xl font-bold mb-4 mt-2 ${isDark ? 'text-white' : 'text-black'}`}>Today's Medicines</Text>
+        
+        {medicines.length === 0 ? (
+          <View className="flex-1 items-center justify-center mt-10">
+            <Text className={`text-base ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>No medicines scheduled for today.</Text>
+          </View>
         ) : (
-          <TaskTimeline tasks={tasks} />
+          medicines.map((med) => (
+            <EnhancedDashboardMedicineItem key={med.id} medicine={med} isDark={isDark} />
+          ))
         )}
       </ScrollView>
-
-      <FloatingActionButton onPress={handleAddTask} />
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
+    paddingBottom: 40,
   },
 });
+
+export default withObservables([], () => ({
+  medicines: database.collections.get<Medicine>('medicines').query().observe(),
+}))(DashboardScreen);
