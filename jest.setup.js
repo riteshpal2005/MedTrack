@@ -1,3 +1,4 @@
+/* eslint-env jest */
 jest.mock('@notifee/react-native', () => ({
   requestPermission: jest.fn(),
   createChannel: jest.fn(),

@@ -1,4 +1,4 @@
-import { addMedicine, updateInventory, deleteMedicine } from '../../src/database/helpers/medicine';
+import { addMedicine, updateInventory } from '../../src/database/helpers/medicine';
 import { database } from '../../src/database';
 import { NotificationService } from '../../src/services/NotificationService';
 
@@ -63,10 +63,10 @@ describe('Medicine Helper Business Logic', () => {
   });
 
   it('updateInventory should subtract amount but not below zero', async () => {
-    const mockMedicine = {
+    const mockMedicine: any = {
       id: 'med-1',
       inventoryCount: 5,
-      update: jest.fn(async (cb) => cb(mockMedicine)),
+      update: jest.fn(async (cb: any) => cb(mockMedicine)),
     };
     
     (database.collections.get as jest.Mock).mockReturnValue({
