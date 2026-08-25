@@ -2,11 +2,14 @@ import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomTabs from './bottom-tabs';
 import ManageTaskScreen from '../screens/manage-task';
+import ManageMedicineScreen from '../screens/manage-medicine';
 import { RoutineTask } from '../store/routine-store';
+import Medicine from '../database/models/Medicine';
 
 export type RootStackParamList = {
   Tabs: undefined;
   ManageTask: { taskToEdit?: RoutineTask };
+  ManageMedicine: { medicineToEdit?: Medicine };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -18,6 +21,11 @@ export default function RootNavigator() {
       <Stack.Screen 
         name="ManageTask" 
         component={ManageTaskScreen} 
+        options={{ presentation: 'fullScreenModal', animation: 'slide_from_bottom' }}
+      />
+      <Stack.Screen 
+        name="ManageMedicine" 
+        component={ManageMedicineScreen} 
         options={{ presentation: 'fullScreenModal', animation: 'slide_from_bottom' }}
       />
     </Stack.Navigator>
