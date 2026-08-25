@@ -1,5 +1,5 @@
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Home, Pill, ListChecks, Clock, User } from 'lucide-react-native';
 import { useThemeStore } from '../store/theme-store';
 
@@ -9,13 +9,13 @@ import RoutinesScreen from '../screens/routines';
 import HistoryScreen from '../screens/history';
 import ProfileScreen from '../screens/profile';
 
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialTopTabNavigator();
 
-const DashboardIcon = ({ color, size }: { color: string; size: number }) => <Home color={color} size={size} />;
-const MedicationsIcon = ({ color, size }: { color: string; size: number }) => <Pill color={color} size={size} />;
-const RoutinesIcon = ({ color, size }: { color: string; size: number }) => <ListChecks color={color} size={size} />;
-const HistoryIcon = ({ color, size }: { color: string; size: number }) => <Clock color={color} size={size} />;
-const ProfileIcon = ({ color, size }: { color: string; size: number }) => <User color={color} size={size} />;
+const DashboardIcon = ({ color }: { color: string }) => <Home color={color} size={24} />;
+const MedicationsIcon = ({ color }: { color: string }) => <Pill color={color} size={24} />;
+const RoutinesIcon = ({ color }: { color: string }) => <ListChecks color={color} size={24} />;
+const HistoryIcon = ({ color }: { color: string }) => <Clock color={color} size={24} />;
+const ProfileIcon = ({ color }: { color: string }) => <User color={color} size={24} />;
 
 export default function BottomTabs() {
   const { theme } = useThemeStore();
@@ -23,15 +23,18 @@ export default function BottomTabs() {
 
   return (
     <Tab.Navigator
+      tabBarPosition="bottom"
       screenOptions={{
-        headerShown: false,
         tabBarShowLabel: false,
         tabBarStyle: {
           backgroundColor: isDark ? '#1F1F1F' : '#FFFFFF',
           borderTopColor: isDark ? '#333333' : '#E0E0E0',
+          borderTopWidth: 1,
           height: 80,
-          paddingBottom: 10,
-          paddingTop: 8,
+          elevation: 0,
+        },
+        tabBarIndicatorStyle: {
+          display: 'none',
         },
         tabBarActiveTintColor: isDark ? '#C4B5FD' : '#7C3AED',
         tabBarInactiveTintColor: isDark ? '#E2E2E2' : '#444746',
