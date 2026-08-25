@@ -16,7 +16,6 @@ const DashboardMedicineItem = ({ medicine, logs, isDark }: { medicine: Medicine;
   const [taken, setTaken] = useState(false);
   
   useEffect(() => {
-    // Check if there is a 'taken' log for today
     const today = new Date();
     const takenToday = logs.some(log => {
       const logDate = new Date(log.timestamp);
@@ -34,7 +33,6 @@ const DashboardMedicineItem = ({ medicine, logs, isDark }: { medicine: Medicine;
   const handleTake = async () => {
     if (taken) return;
     try {
-      // Logic: log history, update inventory
       await logMedicineAction(medicine.id, medicine.profile.id || '1', medicine.schedule?.time || '00:00', 'taken');
       await updateInventory(medicine.id, 1);
       setTaken(true);

@@ -68,7 +68,6 @@ export const deleteMedicine = async (medicineId: string): Promise<void> => {
     const medicineCollection = database.collections.get<Medicine>('medicines');
     const medicine = await medicineCollection.find(medicineId);
     
-    // Cascading delete history logs
     const historyLogs = await medicine.historyLogs.fetch();
     for (const log of historyLogs) {
       await log.markAsDeleted();

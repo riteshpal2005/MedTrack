@@ -14,7 +14,6 @@ export class NotificationService {
   }
 
   static async scheduleMedicineReminder(id: string, name: string, time: string) {
-    // time is expected in HH:MM format
     const [hours, minutes] = time.split(':').map(Number);
     
     const date = new Date(Date.now());
