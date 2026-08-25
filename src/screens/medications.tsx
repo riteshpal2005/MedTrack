@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
@@ -65,7 +65,7 @@ const MedicationsScreen = ({ medicines }: { medicines: Medicine[] }) => {
         data={medicines}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <EnhancedMedicineItem medicine={item} isDark={isDark} />}
-        contentContainerStyle={{ padding: 16, paddingBottom: 100 }}
+        contentContainerClassName="p-4 pb-24"
         ListEmptyComponent={
           <View className="flex-1 items-center justify-center mt-20">
             <Text className={`text-lg ${textColor}`}>No medicines added yet.</Text>
