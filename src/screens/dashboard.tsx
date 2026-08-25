@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useThemeStore } from '../store/theme-store';
 import { Settings, CheckCircle2 } from 'lucide-react-native';
-import { RootStackParamList } from '../navigation/root-navigator';
 import { database } from '../database';
 import Medicine from '../database/models/Medicine';
 import withObservables from '@nozbe/with-observables';
@@ -60,7 +57,6 @@ const EnhancedDashboardMedicineItem = withObservables(['medicine'], ({ medicine 
 const DashboardScreen = ({ medicines }: { medicines: Medicine[] }) => {
   const { theme, setTheme } = useThemeStore();
   const isDark = theme === 'dark';
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');

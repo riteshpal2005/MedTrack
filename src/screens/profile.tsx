@@ -45,7 +45,7 @@ const ProfileScreen = ({ records }: { records: HealthRecord[] }) => {
     try {
       await addHealthRecords('1', 'Note', note);
       setNote('');
-    } catch (error) {
+    } catch {
       Alert.alert('Error', 'Failed to save record.');
     }
   };
